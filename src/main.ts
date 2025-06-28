@@ -1,3 +1,4 @@
+import { Playfield } from './Playfield.js';
 import { Tetromino } from './Tetromino.js';
 
 const canvas = document.getElementById('canvas');
@@ -22,6 +23,8 @@ function render() {
 function gameLoop() {
   const now = performance.now();
   delta += now - lastTimestamp;
+  
+  
 
   if (delta > 500) {
     delta -= 500;
@@ -31,8 +34,9 @@ function gameLoop() {
   render();
 
   lastTimestamp = now;
-  console.log(delta);
   requestAnimationFrame(gameLoop);
 }
+
+const playfield = new Playfield;
 
 gameLoop();

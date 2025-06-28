@@ -1,8 +1,11 @@
+import { Playfield } from './Playfield.js';
 import {
   tetrominos,
   TetrominoType,
   TetrominoShape,
 } from './tetrominoShapes.js';
+
+export type Direction = 'left' | 'down' | 'right';
 
 export class Tetromino {
   type: TetrominoType;
@@ -41,5 +44,12 @@ export class Tetromino {
 
   isColliding() {
     return true;
+  }
+
+  attemptMove(direction: Direction, playfield: Playfield) {
+    const dx = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
+    const dy = direction === 'down' ? -1 : 0;
+    this.x += dx;
+    this.y += dy;
   }
 }
