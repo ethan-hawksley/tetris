@@ -16,12 +16,12 @@ export class Tetromino {
     const types = Object.keys(tetrominos) as TetrominoType[];
     const randomIndex = Math.floor(Math.random() * types.length);
     this.type = types[randomIndex];
-    this.pieceShapes = tetrominos[this.type];
+    this.pieceShapes = tetrominos[this.type].shapes;
     this.rotation = 0;
     this.piece = this.pieceShapes[this.rotation];
-    
+
     this.x = 4;
-    this.y = 19
+    this.y = 19;
 
     console.log('constructed', this.piece);
   }
@@ -36,6 +36,8 @@ export class Tetromino {
       }
     }
   }
-  
-  isColliding()
+
+  isColliding() {
+    return true;
+  }
 }
