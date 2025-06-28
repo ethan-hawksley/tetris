@@ -16,7 +16,7 @@ let delta = 0;
 function render() {
   ctx.fillStyle = '#fff';
   ctx.fillRect(0, 0, 10, 20);
-  tetromino.render(ctx, '#000');
+  tetromino.render(ctx);
 }
 
 function gameLoop() {
