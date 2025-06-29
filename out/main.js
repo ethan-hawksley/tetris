@@ -24,7 +24,7 @@ let lastTimestamp = performance.now();
 let delta = 0;
 let active = true;
 let score = 0;
-const backgroundAudio = new Audio('../static/Korobeiniki.ogg');
+const backgroundAudio = new Audio('static/Korobeiniki.ogg');
 backgroundAudio.addEventListener('loadeddata', () => {
     backgroundAudio.play();
 });
