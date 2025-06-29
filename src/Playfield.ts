@@ -14,6 +14,22 @@ export class Playfield {
     return !!this.grid[y][x];
   }
 
+  clearLines() {
+    let fullLines = 0;
+    const newGrid = [];
+    for (const line of this.grid) {
+      if (line.includes(null)) {
+        newGrid.push(line);
+      } else {
+        fullLines++;
+      }
+    }
+    this.grid = newGrid;
+    for (let i = 0; i < fullLines; i++) {
+      this.grid.push(new Array(10).fill(null));
+    }
+  }
+
   render(ctx: CanvasRenderingContext2D) {
     for (let dx = 0; dx < 10; dx++) {
       for (let dy = 0; dy < 20; dy++) {

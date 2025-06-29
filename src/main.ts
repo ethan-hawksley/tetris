@@ -40,6 +40,7 @@ function gameLoop() {
       const success = tetromino.attemptMove('down', playfield);
       if (!success) {
         tetromino.place(playfield);
+        playfield.clearLines();
         tetromino = new Tetromino();
       }
     }
