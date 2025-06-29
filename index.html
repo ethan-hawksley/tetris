@@ -8,9 +8,16 @@
   </head>
   <body>
     <main>
-      <canvas id="canvas" width="10" height="20"></canvas>
+      <div id="canvas-container">
+        <canvas id="canvas" width="10" height="20"></canvas>
+      </div>
       <div id="sidebar">
+        <h1>TETRIS</h1>
         <span id="score">Score: 0</span>
+        <div id="next-piece-container">
+          <canvas id="next-piece-canvas" width="4" height="4"></canvas>
+        </div>
+        <button id="mute">Unmute</button>
       </div>
     </main>
     <script src="out/main.js" type="module"></script>

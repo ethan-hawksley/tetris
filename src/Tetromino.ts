@@ -54,8 +54,8 @@ export class Tetromino {
   }
 
   attemptMove(direction: Direction, playfield: Playfield) {
-    const dx = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
-    const dy = direction === 'down' ? -1 : 0;
+    let dx = direction === 'left' ? -1 : direction === 'right' ? 1 : 0;
+    let dy = direction === 'down' ? -1 : 0;
     this.x += dx;
     this.y += dy;
     if (direction === 'rotate') {
@@ -63,17 +63,31 @@ export class Tetromino {
       if (this.rotation >= 4) this.rotation = 0;
       this.piece = this.pieceShapes[this.rotation];
     }
-    if (this.isColliding(playfield)) {
+    if (!this.isColliding(playfield)) {
+      return true;
+    } else {
       this.x -= dx;
       this.y -= dy;
       if (direction === 'rotate') {
+        this.x -= dx;
+        this.y -= dy;
+        for (let x = -1; x <= 1; x++) {
+          for (let y = -1; y <= 1; y++) {
+            this.x += x;
+            this.y += y;
+            if (!this.isColliding(playfield)) {
+              return true;
+            }
+            this.x -= x;
+            this.y -= y;
+          }
+        }
         this.rotation--;
         if (this.rotation < 0) this.rotation = 3;
         this.piece = this.pieceShapes[this.rotation];
       }
       return false;
     }
-    return true;
   }
 
   place(playfield: Playfield) {

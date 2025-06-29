@@ -29,6 +29,11 @@ let active = true;
 
 let score = 0;
 
+const backgroundAudio = new Audio('/static/Korobeiniki.ogg');
+backgroundAudio.play().catch((e) => {
+  console.error(e);
+});
+
 document.addEventListener('visibilitychange', () => {
   delta = 0;
   lastTimestamp = performance.now();
@@ -42,18 +47,14 @@ function gameLoop() {
     delta -= 500;
     const success = tetromino.attemptMove('down', playfield);
     if (!success) {
-      active = tetromino.place(playfield);
-      score += Math.floor(Math.pow(playfield.clearLines() * 10, 1.5));
-      tetromino = new Tetromino();
+      placeTetromino();
     }
   } else {
     if (delta > 100 && keys['ArrowDown']) {
       delta = 0;
       const success = tetromino.attemptMove('down', playfield);
       if (!success) {
-        active = tetromino.place(playfield);
-        score += Math.floor(Math.pow(playfield.clearLines() * 10, 1.5));
-        tetromino = new Tetromino();
+        placeTetromino();
       }
     }
     if (delta > 100 && keys['ArrowLeft']) {
@@ -80,6 +81,24 @@ function gameLoop() {
       alert('Game over!');
     }, 50);
   }
+}
+
+function placeTetromino() {
+  const POINTS: Record<number, number> = {
+    1: 100,
+    2: 600,
+    3: 1500,
+    4: 2400,
+  };
+
+  active = tetromino.place(playfield);
+  const linesCleared = playfield.clearLines();
+  if (linesCleared in POINTS) {
+    score += POINTS[linesCleared];
+  } else {
+    score += linesCleared * 100;
+  }
+  tetromino = new Tetromino();
 }
 
 function render() {
