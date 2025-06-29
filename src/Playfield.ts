@@ -28,6 +28,7 @@ export class Playfield {
     for (let i = 0; i < fullLines; i++) {
       this.grid.push(new Array(10).fill(null));
     }
+    return fullLines;
   }
 
   render(ctx: CanvasRenderingContext2D) {

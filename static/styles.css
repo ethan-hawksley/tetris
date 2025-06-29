@@ -6,5 +6,7 @@ canvas {
 }
 
 main {
-    
+  display: flex;
+  flex-direction: row;
+  gap: 2%;
 }

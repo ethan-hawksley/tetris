@@ -8,6 +8,9 @@ if (!(context instanceof CanvasRenderingContext2D))
   throw new Error('Missing context');
 const ctx = context as CanvasRenderingContext2D;
 ctx.imageSmoothingEnabled = false;
+const scoreElement = document.getElementById('score') as HTMLSpanElement;
+if (!(scoreElement instanceof HTMLSpanElement))
+  throw new Error('Missing scoreElement');
 
 const keys: Record<string, boolean> = {};
 window.addEventListener('keydown', (e) => {
@@ -24,6 +27,8 @@ let lastTimestamp = performance.now();
 let delta = 0;
 let active = true;
 
+let score = 0;
+
 document.addEventListener('visibilitychange', () => {
   delta = 0;
   lastTimestamp = performance.now();
@@ -38,7 +43,7 @@ function gameLoop() {
     const success = tetromino.attemptMove('down', playfield);
     if (!success) {
       active = tetromino.place(playfield);
-      playfield.clearLines();
+      score += Math.floor(Math.pow(playfield.clearLines() * 10, 1.5));
       tetromino = new Tetromino();
     }
   } else {
@@ -47,7 +52,7 @@ function gameLoop() {
       const success = tetromino.attemptMove('down', playfield);
       if (!success) {
         active = tetromino.place(playfield);
-        playfield.clearLines();
+        score += Math.floor(Math.pow(playfield.clearLines() * 10, 1.5));
         tetromino = new Tetromino();
       }
     }
@@ -71,7 +76,9 @@ function gameLoop() {
   if (active) {
     requestAnimationFrame(gameLoop);
   } else {
-    alert('Game over!');
+    setTimeout(() => {
+      alert('Game over!');
+    }, 50);
   }
 }
 
@@ -80,6 +87,7 @@ function render() {
   ctx.fillRect(0, 0, 10, 20);
   playfield.render(ctx);
   tetromino.render(ctx);
+  scoreElement.textContent = `Score: ${score}`;
 }
 
 gameLoop();
