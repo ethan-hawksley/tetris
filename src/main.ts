@@ -1,5 +1,6 @@
 import { Playfield } from './Playfield.js';
 import { Tetromino } from './Tetromino.js';
+import { tetrominos, TetrominoType } from './tetrominoShapes.js';
 
 const canvas = document.getElementById('canvas');
 if (!(canvas instanceof HTMLCanvasElement)) throw new Error('Missing canvas');
@@ -8,6 +9,16 @@ if (!(context instanceof CanvasRenderingContext2D))
   throw new Error('Missing context');
 const ctx = context as CanvasRenderingContext2D;
 ctx.imageSmoothingEnabled = false;
+
+const nextPieceCanvas = document.getElementById('next-piece-canvas');
+if (!(nextPieceCanvas instanceof HTMLCanvasElement))
+  throw new Error('Missing nextPieceCanvas');
+const nextPieceContext = nextPieceCanvas.getContext('2d');
+if (!(nextPieceContext instanceof CanvasRenderingContext2D))
+  throw new Error('Missing nextPieceContext');
+const nextPieceCtx = nextPieceContext as CanvasRenderingContext2D;
+nextPieceCtx.imageSmoothingEnabled = false;
+
 const scoreElement = document.getElementById('score') as HTMLSpanElement;
 if (!(scoreElement instanceof HTMLSpanElement))
   throw new Error('Missing scoreElement');
@@ -21,7 +32,13 @@ window.addEventListener('keyup', (e) => {
 });
 
 const playfield = new Playfield();
-let tetromino = new Tetromino();
+let tetromino = new Tetromino(generateRandomType());
+
+let nextType = generateRandomType();
+let nextPieceTetromino = new Tetromino(nextType);
+nextPieceTetromino.x = 0;
+nextPieceTetromino.y = 17;
+nextPieceTetromino.render(nextPieceCtx);
 
 let lastTimestamp = performance.now();
 let delta = 0;
@@ -112,7 +129,21 @@ function placeTetromino() {
   } else {
     score += linesCleared * 100;
   }
-  tetromino = new Tetromino();
+  tetromino = new Tetromino(nextType);
+  nextPieceCtx.fillStyle = '#fff';
+  nextPieceCtx.fillRect(0, 0, 5, 5);
+
+  nextType = generateRandomType();
+  nextPieceTetromino = new Tetromino(nextType);
+  nextPieceTetromino.x = 0;
+  nextPieceTetromino.y = 17;
+  nextPieceTetromino.render(nextPieceCtx);
+}
+
+function generateRandomType() {
+  const types = Object.keys(tetrominos) as TetrominoType[];
+  const randomIndex = Math.floor(Math.random() * types.length);
+  return types[randomIndex];
 }
 
 function render() {

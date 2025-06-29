@@ -1,9 +1,10 @@
 import { tetrominos, } from './tetrominoShapes.js';
 export class Tetromino {
-    constructor() {
+    constructor(type) {
         const types = Object.keys(tetrominos);
         const randomIndex = Math.floor(Math.random() * types.length);
-        this.type = types[randomIndex];
+        types[randomIndex];
+        this.type = type;
         this.pieceShapes = tetrominos[this.type];
         this.rotation = 0;
         this.piece = this.pieceShapes[this.rotation];

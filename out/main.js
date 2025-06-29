@@ -1,5 +1,6 @@
 import { Playfield } from './Playfield.js';
 import { Tetromino } from './Tetromino.js';
+import { tetrominos } from './tetrominoShapes.js';
 const canvas = document.getElementById('canvas');
 if (!(canvas instanceof HTMLCanvasElement))
     throw new Error('Missing canvas');
@@ -8,6 +9,14 @@ if (!(context instanceof CanvasRenderingContext2D))
     throw new Error('Missing context');
 const ctx = context;
 ctx.imageSmoothingEnabled = false;
+const nextPieceCanvas = document.getElementById('next-piece-canvas');
+if (!(nextPieceCanvas instanceof HTMLCanvasElement))
+    throw new Error('Missing nextPieceCanvas');
+const nextPieceContext = nextPieceCanvas.getContext('2d');
+if (!(nextPieceContext instanceof CanvasRenderingContext2D))
+    throw new Error('Missing nextPieceContext');
+const nextPieceCtx = nextPieceContext;
+nextPieceCtx.imageSmoothingEnabled = false;
 const scoreElement = document.getElementById('score');
 if (!(scoreElement instanceof HTMLSpanElement))
     throw new Error('Missing scoreElement');
@@ -19,12 +28,18 @@ window.addEventListener('keyup', (e) => {
     keys[e.code] = false;
 });
 const playfield = new Playfield();
-let tetromino = new Tetromino();
+let tetromino = new Tetromino(generateRandomType());
+let nextType = generateRandomType();
+let nextPieceTetromino = new Tetromino(nextType);
+nextPieceTetromino.x = 0;
+nextPieceTetromino.y = 17;
+nextPieceTetromino.render(nextPieceCtx);
 let lastTimestamp = performance.now();
 let delta = 0;
 let active = true;
 let score = 0;
 const backgroundAudio = new Audio('static/Korobeiniki.ogg');
+backgroundAudio.loop = true;
 backgroundAudio.addEventListener('loadeddata', () => {
     backgroundAudio.play();
 });
@@ -102,7 +117,19 @@ function placeTetromino() {
     else {
         score += linesCleared * 100;
     }
-    tetromino = new Tetromino();
+    tetromino = new Tetromino(nextType);
+    nextPieceCtx.fillStyle = '#fff';
+    nextPieceCtx.fillRect(0, 0, 5, 5);
+    nextType = generateRandomType();
+    nextPieceTetromino = new Tetromino(nextType);
+    nextPieceTetromino.x = 0;
+    nextPieceTetromino.y = 17;
+    nextPieceTetromino.render(nextPieceCtx);
+}
+function generateRandomType() {
+    const types = Object.keys(tetrominos);
+    const randomIndex = Math.floor(Math.random() * types.length);
+    return types[randomIndex];
 }
 function render() {
     ctx.fillStyle = '#fff';

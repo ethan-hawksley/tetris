@@ -5,6 +5,7 @@
     <meta content="width=device-width, initial-scale=1" name="viewport" />
     <title>Tetris</title>
     <link rel="stylesheet" href="static/styles.css" />
+    <link href="https://fonts.googleapis.com/css2?family=Press+Start+2P&display=swap" rel="stylesheet">
   </head>
   <body>
     <main>
@@ -14,10 +15,12 @@
       <div id="sidebar">
         <h1>TETRIS</h1>
         <span id="score">Score: 0</span>
+        <h2>Next Piece</h2>
         <div id="next-piece-container">
           <canvas id="next-piece-canvas" width="4" height="4"></canvas>
         </div>
         <button id="mute">Unmute</button>
+        <p>← and → to move, ↑ to rotate, and ↓ to accelerate your piece downwards.</p>
       </div>
     </main>
     <script src="out/main.js" type="module"></script>
