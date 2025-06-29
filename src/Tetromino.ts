@@ -77,19 +77,23 @@ export class Tetromino {
   }
 
   place(playfield: Playfield) {
+    let success = true;
     for (let dx = 0; dx < 4; dx++) {
       for (let dy = 0; dy < 4; dy++) {
         const colour = this.piece[dy][dx];
-        if (
-          colour &&
-          this.x + dx >= 0 &&
-          this.x + dx < 10 &&
-          this.y + dy >= 0 &&
-          this.y + dy < 20
-        ) {
-          playfield.grid[this.y + dy][this.x + dx] = colour;
-        }
+        if (colour)
+          if (
+            this.x + dx >= 0 &&
+            this.x + dx < 10 &&
+            this.y + dy >= 0 &&
+            this.y + dy < 20
+          ) {
+            playfield.grid[this.y + dy][this.x + dx] = colour;
+          } else {
+            success = false;
+          }
       }
     }
+    return success;
   }
 }

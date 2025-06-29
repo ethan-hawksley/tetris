@@ -22,6 +22,7 @@ let tetromino = new Tetromino();
 
 let lastTimestamp = performance.now();
 let delta = 0;
+let active = true;
 
 document.addEventListener('visibilitychange', () => {
   delta = 0;
@@ -36,7 +37,7 @@ function gameLoop() {
     delta -= 500;
     const success = tetromino.attemptMove('down', playfield);
     if (!success) {
-      tetromino.place(playfield);
+      active = tetromino.place(playfield);
       playfield.clearLines();
       tetromino = new Tetromino();
     }
@@ -45,7 +46,7 @@ function gameLoop() {
       delta = 0;
       const success = tetromino.attemptMove('down', playfield);
       if (!success) {
-        tetromino.place(playfield);
+        active = tetromino.place(playfield);
         playfield.clearLines();
         tetromino = new Tetromino();
       }
@@ -67,7 +68,11 @@ function gameLoop() {
   render();
 
   lastTimestamp = now;
-  requestAnimationFrame(gameLoop);
+  if (active) {
+    requestAnimationFrame(gameLoop);
+  } else {
+    alert('Game over!');
+  }
 }
 
 function render() {
