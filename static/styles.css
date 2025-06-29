@@ -1,38 +1,106 @@
-#canvas-container {
-    width: auto;
-    height: 80vh;
-    aspect-ratio: 1/2;
-    display: inline-block;
-}
-
-canvas {
-  image-rendering: pixelated;
-  border: 1px solid red;
-  width: 100%;
-  height: 100%;
+body {
+  background: #eee;
+  color: #222;
+  font-family: 'Press Start 2P', 'Consolas', 'monospace', sans-serif;
+  margin: 0;
+  min-height: 100vh;
 }
 
 main {
   display: flex;
   flex-direction: row;
-  gap: 2%;
+  gap: 2vw;
   justify-content: center;
   align-items: flex-start;
+  padding: 4vh 0;
+}
+
+#canvas-container {
+  background: #999;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #000a;
+  padding: 2vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 80vh;
+  aspect-ratio: 1/2;
+}
+
+canvas {
+  image-rendering: pixelated;
+  border: 2px solid #777;
+  border-radius: 6px;
+  background: #fff;
+  width: 100%;
+  height: 100%;
+  box-shadow: 0 2px 12px #0004;
 }
 
 #sidebar {
-    margin-left: 10px;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
-    gap: 10px;
-    max-width: 30vw;
+  margin-left: 2vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2vh;
+  max-width: 30vw;
+  background: #aaa;
+  border-radius: 12px;
+  box-shadow: 0 4px 24px #000a;
+  padding: 2vw 2vw 3vw 2vw;
+}
+
+#sidebar h1 {
+  font-size: 2.2rem;
+  letter-spacing: 0.2em;
+  color: #ff5c5c;
+  margin: 0 0 1vh 0;
+  text-shadow:
+    2px 2px 0 #000,
+    0 0 8px #ff5c5c88;
+}
+
+#score {
+  font-size: 1.2rem;
+  color: #ffe066;
+  margin-bottom: 1vh;
+  text-shadow: 1px 1px 0 #000;
 }
 
 #next-piece-container {
-    width: auto;
-    height: 12vh;
-    aspect-ratio: 1/1;
-    display: inline-block;
+  width: 8vw;
+  min-width: 80px;
+  max-width: 120px;
+  aspect-ratio: 1/1;
+  background: #181818;
+  border: 2px solid #444;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 2vh;
+  box-shadow: 0 2px 8px #0006;
+}
+
+#next-piece-canvas {
+  width: 100% !important;
+  height: 100% !important;
+  background: #fff;
+  border-radius: 4px;
+}
+
+button#mute {
+  background: #ff5c5c;
+  color: #fff;
+  border: none;
+  border-radius: 6px;
+  padding: 0.7em 2em;
+  font-size: 1rem;
+  font-family: inherit;
+  cursor: pointer;
+  box-shadow: 0 2px 8px #0004;
+  transition: background 0.2s;
+}
+button#mute:hover {
+  background: #ff1c1c;
 }

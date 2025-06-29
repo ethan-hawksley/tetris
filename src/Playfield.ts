@@ -9,8 +9,8 @@ export class Playfield {
   }
 
   isOccupied(x: number, y: number) {
-    if (y >= 20) return false;
     if (y < 0 || x < 0 || x >= 10) return true;
+    if (y >= 20) return false;
     return !!this.grid[y][x];
   }
 
