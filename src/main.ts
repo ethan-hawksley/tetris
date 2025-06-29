@@ -30,6 +30,7 @@ let active = true;
 let score = 0;
 
 const backgroundAudio = new Audio('static/Korobeiniki.ogg');
+backgroundAudio.loop = true;
 backgroundAudio.addEventListener('loadeddata', () => {
   backgroundAudio.play();
 });
