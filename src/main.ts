@@ -30,9 +30,9 @@ let active = true;
 let score = 0;
 
 const backgroundAudio = new Audio('/static/Korobeiniki.ogg');
-backgroundAudio.play().catch((e) => {
-  console.error(e);
-});
+backgroundAudio.addEventListener('loadeddata', () => {
+  backgroundAudio.play()
+})
 
 document.addEventListener('visibilitychange', () => {
   delta = 0;
