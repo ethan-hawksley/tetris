@@ -29,10 +29,23 @@ let active = true;
 
 let score = 0;
 
-const backgroundAudio = new Audio('/static/Korobeiniki.ogg');
+const backgroundAudio = new Audio('../static/Korobeiniki.ogg');
 backgroundAudio.addEventListener('loadeddata', () => {
-  backgroundAudio.play()
-})
+  backgroundAudio.play();
+});
+
+const muteButton = document.getElementById('mute');
+if (!(muteButton instanceof HTMLButtonElement))
+  throw new Error('Missing muteButton');
+muteButton.addEventListener('click', () => {
+  if (backgroundAudio.paused) {
+    backgroundAudio.play();
+    muteButton.textContent = 'Mute';
+  } else {
+    backgroundAudio.pause();
+    muteButton.textContent = 'Unmute';
+  }
+});
 
 document.addEventListener('visibilitychange', () => {
   delta = 0;
