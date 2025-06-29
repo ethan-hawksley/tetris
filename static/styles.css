@@ -89,7 +89,7 @@ canvas {
   border-radius: 4px;
 }
 
-button#mute {
+button {
   background: #ff5c5c;
   color: #fff;
   border: none;
@@ -101,6 +101,6 @@ button#mute {
   box-shadow: 0 2px 8px #0004;
   transition: background 0.2s;
 }
-button#mute:hover {
+button:hover {
   background: #ff1c1c;
 }

@@ -23,7 +23,11 @@ const scoreElement = document.getElementById('score') as HTMLSpanElement;
 if (!(scoreElement instanceof HTMLSpanElement))
   throw new Error('Missing scoreElement');
 
-const keys: Record<string, boolean> = {};
+const replayButton = document.getElementById('replay');
+if (!(replayButton instanceof HTMLButtonElement))
+  throw new Error('Missing replayButton');
+
+let keys: Record<string, boolean> = {};
 window.addEventListener('keydown', (e) => {
   keys[e.code] = true;
 });
@@ -31,7 +35,7 @@ window.addEventListener('keyup', (e) => {
   keys[e.code] = false;
 });
 
-const playfield = new Playfield();
+let playfield = new Playfield();
 let tetromino = new Tetromino(generateRandomType());
 
 let nextType = generateRandomType();
@@ -70,7 +74,32 @@ document.addEventListener('visibilitychange', () => {
   lastTimestamp = performance.now();
 });
 
+replayButton.addEventListener('click', () => {
+  playfield = new Playfield();
+  tetromino = new Tetromino(generateRandomType());
+
+  nextType = generateRandomType();
+  nextPieceTetromino = new Tetromino(nextType);
+  nextPieceTetromino.x = 0;
+  nextPieceTetromino.y = 17;
+
+  lastTimestamp = performance.now();
+  delta = 0;
+  keys = {};
+
+  score = 0;
+  scoreElement.textContent = 'Score: 0';
+  ctx.clearRect(0, 0, canvas.width, canvas.height);
+  nextPieceCtx.clearRect(0, 0, nextPieceCanvas.width, nextPieceCanvas.height);
+  nextPieceTetromino.render(nextPieceCtx);
+  if (!active) {
+    active = true;
+    gameLoop();
+  }
+});
+
 function gameLoop() {
+  console.log('loop');
   const now = performance.now();
   delta += now - lastTimestamp;
 
