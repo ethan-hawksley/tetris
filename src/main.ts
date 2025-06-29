@@ -9,6 +9,14 @@ if (!(context instanceof CanvasRenderingContext2D))
 const ctx = context as CanvasRenderingContext2D;
 ctx.imageSmoothingEnabled = false;
 
+const keys: Record<string, boolean> = {};
+window.addEventListener('keydown', (e) => {
+  keys[e.code] = true;
+});
+window.addEventListener('keyup', (e) => {
+  keys[e.code] = false;
+});
+
 const playfield = new Playfield();
 let tetromino = new Tetromino();
 
@@ -25,6 +33,27 @@ function gameLoop() {
     if (!success) {
       tetromino.place(playfield);
       tetromino = new Tetromino();
+    }
+  } else {
+    if (delta > 100 && keys['ArrowDown']) {
+      delta = 0;
+      const success = tetromino.attemptMove('down', playfield);
+      if (!success) {
+        tetromino.place(playfield);
+        tetromino = new Tetromino();
+      }
+    }
+    if (delta > 100 && keys['ArrowLeft']) {
+      delta = 0;
+      tetromino.attemptMove('left', playfield);
+    }
+    if (delta > 100 && keys['ArrowRight']) {
+      delta = 0;
+      tetromino.attemptMove('right', playfield);
+    }
+    if (delta > 150 && keys['ArrowUp']) {
+      delta = 0;
+      tetromino.attemptMove('rotate', playfield)
     }
   }
 

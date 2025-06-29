@@ -6,7 +6,6 @@ export class Playfield {
     for (let row = 0; row < 20; row++) {
       this.grid.push(new Array(10).fill(null));
     }
-    console.log(this.grid);
   }
 
   isOccupied(x: number, y: number) {

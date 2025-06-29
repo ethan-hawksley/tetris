@@ -5,7 +5,7 @@ import {
   TetrominoShape,
 } from './tetrominoShapes.js';
 
-export type Direction = 'left' | 'down' | 'right';
+export type Direction = 'left' | 'down' | 'right' | 'rotate';
 
 export class Tetromino {
   type: TetrominoType;
@@ -25,8 +25,6 @@ export class Tetromino {
 
     this.x = 4;
     this.y = 19;
-
-    console.log('constructed', this.piece);
   }
 
   render(ctx: CanvasRenderingContext2D) {
@@ -42,7 +40,6 @@ export class Tetromino {
   }
 
   isColliding(playfield: Playfield) {
-    console.log(this.x, this.y);
     for (let dx = 0; dx < 4; dx++) {
       for (let dy = 0; dy < 4; dy++) {
         if (
@@ -61,10 +58,19 @@ export class Tetromino {
     const dy = direction === 'down' ? -1 : 0;
     this.x += dx;
     this.y += dy;
+    if (direction === 'rotate') {
+      this.rotation++;
+      if (this.rotation >= 4) this.rotation = 0;
+      this.piece = this.pieceShapes[this.rotation];
+    }
     if (this.isColliding(playfield)) {
-      console.log('colliding!')
       this.x -= dx;
       this.y -= dy;
+      if (direction === 'rotate') {
+        this.rotation--;
+        if (this.rotation < 0) this.rotation = 3;
+        this.piece = this.pieceShapes[this.rotation];
+      }
       return false;
     }
     return true;
