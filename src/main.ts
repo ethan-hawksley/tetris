@@ -9,26 +9,23 @@ if (!(context instanceof CanvasRenderingContext2D))
 const ctx = context as CanvasRenderingContext2D;
 ctx.imageSmoothingEnabled = false;
 
-const tetromino = new Tetromino();
+const playfield = new Playfield();
+let tetromino = new Tetromino();
 
 let lastTimestamp = performance.now();
 let delta = 0;
 
-function render() {
-  ctx.fillStyle = '#fff';
-  ctx.fillRect(0, 0, 10, 20);
-  tetromino.render(ctx);
-}
-
 function gameLoop() {
   const now = performance.now();
   delta += now - lastTimestamp;
-  
-  
 
   if (delta > 500) {
     delta -= 500;
-    tetromino.y--;
+    const success = tetromino.attemptMove('down', playfield);
+    if (!success) {
+      tetromino.place(playfield);
+      tetromino = new Tetromino();
+    }
   }
 
   render();
@@ -37,6 +34,11 @@ function gameLoop() {
   requestAnimationFrame(gameLoop);
 }
 
-const playfield = new Playfield;
+function render() {
+  ctx.fillStyle = '#fff';
+  ctx.fillRect(0, 0, 10, 20);
+  playfield.render(ctx);
+  tetromino.render(ctx);
+}
 
 gameLoop();
